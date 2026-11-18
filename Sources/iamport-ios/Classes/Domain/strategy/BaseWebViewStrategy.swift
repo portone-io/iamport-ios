@@ -3,13 +3,17 @@
 //
 
 import Foundation
-import RxBusForPort
 import RxSwift
 import WebKit
 
 public class BaseWebViewStrategy: IStrategy {
     var disposeBag = DisposeBag()
     var request: IamportRequest?
+    let eventBus: EventBus
+    
+    init(eventBus: EventBus) {
+        self.eventBus = eventBus
+    }
 
     func clear() {
         request = nil
@@ -39,7 +43,7 @@ public class BaseWebViewStrategy: IStrategy {
         clear()
         self.request = request
 
-        EventBus.shared.clearBus.subscribe { [weak self] _ in
+        eventBus.clearBus.subscribe { [weak self] _ in
             self?.clear() // 종료 없이 only clear
         }.disposed(by: disposeBag)
 

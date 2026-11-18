@@ -3,13 +3,17 @@
 //
 
 import Foundation
-import RxBusForPort
 import RxSwift
 
 internal class WebViewModel {
-    let repository = StrategyRepository()
+    let eventBus: EventBus
+    let repository: StrategyRepository
     let delegate = IamportWKWebViewDelegate()
 
+    init(eventBus: EventBus) {
+        self.eventBus = eventBus
+        repository = StrategyRepository(eventBus: self.eventBus)
+    }
     /**
      * 뱅크페이 결과 처리
      */

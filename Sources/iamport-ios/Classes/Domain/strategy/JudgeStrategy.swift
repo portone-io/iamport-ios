@@ -4,7 +4,6 @@
 
 import Alamofire
 import Foundation
-import RxBusForPort
 import RxSwift
 
 public class JudgeStrategy: BaseStrategy {
@@ -12,9 +11,10 @@ public class JudgeStrategy: BaseStrategy {
     enum JudgeKind {
         case CHAI, WEB, CERT, ERROR
     }
-
     var ignoreNative = false
-
+    override init(eventBus: EventBus) {
+        super.init(eventBus: eventBus)
+    }
     func doWork(_ request: IamportRequest, ignoreNative: Bool) {
         self.ignoreNative = ignoreNative
         doWork(request)
